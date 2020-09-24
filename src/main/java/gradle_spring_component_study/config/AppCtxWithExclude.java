@@ -3,14 +3,26 @@ package gradle_spring_component_study.config;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 
 import gradle_spring_component_study.spring.MemberPrinter;
 import gradle_spring_component_study.spring.MemberSummaryPrinter;
 
 @Configuration
-@ComponentScan(basePackages = {"gradle_spring_component_study.spring"})
-public class AppCtx {
+/*
+ * @ComponentScan(basePackages = {"gradle_spring_component_study.spring"},
+ * excludeFilters = @Filter(type=FilterType.REGEX,
+ * pattern="gradle_spring_component_study.spring\\..*Dao" ) )
+ */
+@ComponentScan(basePackages = {"gradle_spring_component_study.spring"},
+excludeFilters = @Filter(type=FilterType.ASPECTJ, 
+						pattern="gradle_spring_component_study.spring.*Dao"
+		)
+)
+
+public class AppCtxWithExclude {
 
 	/*
 	 * @Bean public MemberDao memberDao() { return new MemberDao(); }
@@ -40,8 +52,7 @@ public class AppCtx {
 	}
 
 	/*
-	 * @Bean 
-	 * public MemberListPrinter listPrinter() { return new MemberListPrinter(
+	 * @Bean public MemberListPrinter listPrinter() { return new MemberListPrinter(
 	 * memberDao(), memberPrinter() ); }
 	 */
 	/*
